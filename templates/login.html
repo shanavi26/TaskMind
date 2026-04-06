@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>TaskMind — Login</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;font-family:'Sora',sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(37,99,235,.35), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(20,184,166,.25), transparent 28%),
+    linear-gradient(135deg,#07101f,#0d1829 45%,#07101f);
+  color:#dbeafe;display:grid;place-items:center;padding:24px;
+}
+.shell{width:min(980px,100%);display:grid;grid-template-columns:1.1fr .9fr;gap:24px}
+.hero,.card{
+  background:rgba(13,24,41,.72);border:1px solid rgba(96,165,250,.12);
+  border-radius:28px;box-shadow:0 24px 80px rgba(0,0,0,.35);backdrop-filter:blur(18px);
+}
+.hero{padding:40px;display:flex;flex-direction:column;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,#2563eb,#14b8a6);display:grid;place-items:center;font-size:24px;font-weight:700;color:white}
+h1{font-size:44px;line-height:1.05;margin:28px 0 14px}
+.hero p{color:#9dc0e8;line-height:1.7;max-width:520px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.chip{padding:10px 14px;border-radius:999px;font-size:13px;background:rgba(17,31,53,.9);border:1px solid rgba(96,165,250,.12);color:#bfd8f5}
+.card{padding:28px;align-self:center}
+.tabs{display:flex;gap:10px;margin-bottom:18px}
+.tab{flex:1;padding:12px;border-radius:14px;background:#111f35;color:#93b4d8;border:1px solid rgba(96,165,250,.15);cursor:pointer;font-weight:600}
+.tab.active{background:linear-gradient(135deg,#2563eb,#14b8a6);color:white;border:none}
+.field{margin-bottom:14px}.field label{display:block;font-size:12px;color:#9dc0e8;margin-bottom:6px}
+.field input{width:100%;padding:13px 14px;border-radius:14px;background:#0b1527;color:#dbeafe;border:1px solid rgba(96,165,250,.18);outline:none}
+.field input:focus{border-color:#3b82f6}
+.btn{width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#2563eb,#14b8a6);color:white;font-weight:700;cursor:pointer;margin-top:6px}
+.hint{margin-top:14px;font-size:13px;color:#93b4d8;min-height:18px}
+@media (max-width:860px){.shell{grid-template-columns:1fr}.hero{display:none}}
+</style>
+</head>
+<body>
+  <div class="shell">
+    <section class="hero">
+      <div>
+        <div class="brand">
+          <div class="logo">C</div>
+          <div>
+            <div style="font-size:20px;font-weight:700">TaskMind</div>
+            <div style="color:#4d7099;font-size:13px">AI task planner</div>
+          </div>
+        </div>
+        <h1>Plan better.<br>Stress less.</h1>
+        <p>Turn messy goals into a neat board of tasks, priorities, dates, and steps — all from a quick chat.</p>
+      </div>
+      <div class="chips">
+        <div class="chip">Follow-up questions</div>
+        <div class="chip">Priority mix</div>
+        <div class="chip">Consistent dates</div>
+        <div class="chip">Calendar export</div>
+      </div>
+    </section>
+    <section class="card">
+      <div class="tabs">
+        <button class="tab active" id="loginTab" type="button">Login</button>
+        <button class="tab" id="registerTab" type="button">Register</button>
+      </div>
+      <div class="field"><label>Username</label><input id="username" placeholder="Enter username"></div>
+      <div class="field"><label>Password</label><input id="password" type="password" placeholder="Enter password"></div>
+      <button class="btn" id="submitBtn" type="button">Login</button>
+      <div class="hint" id="hint"></div>
+    </section>
+  </div>
+
+<script>
+let mode = 'login';
+const loginTab = document.getElementById('loginTab');
+const registerTab = document.getElementById('registerTab');
+const submitBtn = document.getElementById('submitBtn');
+const hint = document.getElementById('hint');
+
+function setMode(next){
+  mode = next;
+  loginTab.classList.toggle('active', mode === 'login');
+  registerTab.classList.toggle('active', mode === 'register');
+  submitBtn.textContent = mode === 'login' ? 'Login' : 'Create account';
+  hint.textContent = '';
+}
+loginTab.onclick = () => setMode('login');
+registerTab.onclick = () => setMode('register');
+
+submitBtn.onclick = async () => {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  if(!username || !password){ hint.textContent = 'Enter both username and password.'; return; }
+  hint.textContent = 'Please wait...';
+  const res = await fetch(mode === 'login' ? '/login' : '/register', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({username, password})
+  });
+  const data = await res.json();
+  if(!res.ok){ hint.textContent = data.error || 'Something went wrong.'; return; }
+  location.href = '/';
+};
+</script>
+</body>
+</html>
