@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>TaskMind — AI Task Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="layout">
+  <div class="cpanel">
+    <div class="cheader">
+      <div class="brand">
+        <div class="logo">C</div>
+        <div>
+          <div class="bname">TaskMind</div>
+          <div class="bsub">Welcome, {{ username }}</div>
+        </div>
+      </div>
+      <button class="ghost-btn" id="logoutBtn">Logout</button>
+    </div>
+
+    <div class="cmsgs" id="cmsgs"></div>
+
+    <div class="cfooter">
+      <div class="irow">
+        <textarea class="cta" id="cta" placeholder="Tell me what you need to get done…" rows="1"></textarea>
+        <button class="sbtn" id="sbtn">➜</button>
+      </div>
+      <div class="chint">Enter to send · Shift+Enter for new line</div>
+    </div>
+  </div>
+
+  <div class="tpanel">
+    <div class="theader">
+      <div>
+        <div class="ttitle">Task Board</div>
+        <div class="tmeta" id="tmeta">No tasks yet</div>
+      </div>
+      <div class="hacts">
+        <button class="hbtn" id="calendarSettingsBtn">Calendar email</button>
+        <button class="hbtn" id="exportAllBtn">Sync all</button>
+        <button class="hbtn" id="sortBtn">Sort by priority</button>
+        <button class="hbtn" id="clearBtn">Clear all</button>
+      </div>
+    </div>
+
+    <div class="progwrap">
+      <div class="progrow">
+        <span id="plabel">0 of 0 complete</span>
+        <span id="ppct">0%</span>
+      </div>
+      <div class="progbar"><div class="progfill" id="pfill"></div></div>
+    </div>
+
+    <div class="calendar-bar" id="calendarBar">Google Calendar email: <span id="calendarEmailText">not set</span></div>
+    <div class="tbody" id="tbody"></div>
+  </div>
+</div>
+
+<div id="modalRoot"></div>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
