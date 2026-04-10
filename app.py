@@ -6,9 +6,9 @@ from datetime import date
 import json
 
 app = Flask(__name__)
-app.secret_key = "AIzaSyCi5Eudyhy6IC11lKmHtimkcHWvCxXt1Rg"
+app.secret_key = "TM_API"
 
-API_KEY = "AIzaSyCi5Eudyhy6IC11lKmHtimkcHWvCxXt1Rg"
+API_KEY = "TM_API"
 genai.configure(api_key=API_KEY)
 model = genai.GenerativeModel("gemini-2.5-flash")
 
