@@ -28,10 +28,6 @@ CONVERSATION FLOW:
 <<<<<<< HEAD
 - For multi-part, ambiguous, or broad goals: ask as many follow-up questions as needed to get all the informationfirst.
 - After the user answers all questions, return task JSON.
-=======
-- For multi-part, ambiguous, or broad goals: ask EXACTLY ONE short follow-up question first.
-- After the user answers that one question, return task JSON.
->>>>>>> e7bb3783e6c28fd9bc04fcfb6222cfbecb4322d6
 - If the user wants to change, refine, remove, reprioritize, or edit EXISTING tasks, do NOT regenerate everything.
   Return an update JSON with only the needed operations.
 - Do not ask more than one follow-up question.
