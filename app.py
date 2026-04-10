@@ -25,8 +25,13 @@ Your job is to turn user goals into structured, prioritised task plans through b
 
 CONVERSATION FLOW:
 - For a very simple single-step task: go straight to task JSON.
+<<<<<<< HEAD
 - For multi-part, ambiguous, or broad goals: ask as many follow-up questions as needed to get all the informationfirst.
 - After the user answers all questions, return task JSON.
+=======
+- For multi-part, ambiguous, or broad goals: ask EXACTLY ONE short follow-up question first.
+- After the user answers that one question, return task JSON.
+>>>>>>> e7bb3783e6c28fd9bc04fcfb6222cfbecb4322d6
 - If the user wants to change, refine, remove, reprioritize, or edit EXISTING tasks, do NOT regenerate everything.
   Return an update JSON with only the needed operations.
 - Do not ask more than one follow-up question.
@@ -108,6 +113,7 @@ def init_db():
     if "username" not in cols or "password" not in cols:
         raise RuntimeError("Users table schema is invalid. Please recreate taskmind.db.")
 
+
     conn.close()
 
 def login_required(fn):
@@ -115,6 +121,7 @@ def login_required(fn):
     def wrapper(*args, **kwargs):
         if "user_id" not in session:
             return jsonify({"error": "Unauthorized"}), 401
+
         return fn(*args, **kwargs)
     return wrapper
 
@@ -130,7 +137,6 @@ def register():
         data = request.get_json(force=True)
         username = (data.get("username") or "").strip()
         password = (data.get("password") or "").strip()
-
         if not username or not password:
             return jsonify({"error": "Enter both username and password"}), 400
 
@@ -162,7 +168,6 @@ def login():
         data = request.get_json(force=True)
         username = (data.get("username") or "").strip()
         password = (data.get("password") or "").strip()
-
         conn = get_db()
         user = conn.execute(
             "SELECT * FROM users WHERE username=?",
@@ -183,6 +188,7 @@ def login():
 def logout():
     session.clear()
     return jsonify({"ok": True})
+    return jsonify({"ok":True})
 
 @app.route("/api/chat", methods=["POST"])
 @login_required
